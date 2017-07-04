@@ -1,29 +1,43 @@
-var request = require('request');
-
+const request = require('request');
+require('dotenv').config()
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 
 function getRepoContributors(repoOwner, repoName, cb) {
   // ...
-var GITHUB_USER = "YOUR USERNAME HERE";
-var GITHUB_TOKEN = "YOUR ACCESSTOKEN HERE";
-var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
+var user = process.env.GITHUB_USER
+var token = process.env.GITHUB_TOKEN
+var requestURL = 'https://'+ user + ':' + token + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
 console.log(requestURL);
+
+
+  var userOptions = {
+    url: requestURL,
+    headers: {
+      'User-Agent': 'Terry'
+    }
+  };
+
+function getGitHubApiResponse() {
+  request(userOptions, function (error, response, body) {
+    // try {
+    //   const data = JSON.parse(body);
+    //   callback(data);
+    // } catch (err) {
+      console.log(response);
+      console.log(body);
+      // console.log('Failed to parse content body');
+
+  });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+getGitHubApiResponse();
+// getGitHubApiResponse(`/repos/${process.argv[2]}/${process.argv[3]}/contributors`, (data) => {
+//   data.forEach((contributor) => {
+//     console.log(contributor.login);
+//   });
+// });
+// getGitHubApiResponse("https://api.github.com", )
+};
 getRepoContributors("jquery", "jquery", function(err, result) {
   console.log("Errors:", err);
   console.log("Result:", result);
