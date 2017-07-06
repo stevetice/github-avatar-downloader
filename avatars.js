@@ -10,12 +10,12 @@ function getRepoContributors(repoOwner, repoName, cb) {
   var user = process.env.GITHUB_USER
   var token = process.env.GITHUB_TOKEN
   var requestURL = 'https://'+ user + ':' + token + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
-  // console.log(requestURL);
+  console.log(requestURL);
 
   var userOptions = {
     url: requestURL,
     headers: {
-      'User-Agent': 'Terry'
+      'User-Agent': 'Crazy Terry'
     }
   };
 
@@ -25,10 +25,13 @@ function getRepoContributors(repoOwner, repoName, cb) {
     request(userOptions, function (error, response, body) {
       try {
         const data = JSON.parse(body);
-        callback(data);
+        console.log(typeof data === 'object');
+        data.forEach(function (arrayItem) {
+          console.log(arrayItem.avatar_url);
+        })
       } catch (err) {
         // console.log(response);
-        console.log(body);
+        // console.log(body);
         console.log('Failed to parse content body');
       };
     });
@@ -43,6 +46,6 @@ function getRepoContributors(repoOwner, repoName, cb) {
 getGitHubApiResponse();
 }
 getRepoContributors("jquery", "jquery", function(err, result) {
-  console.log("Errors:", err);
-  console.log("Result:", result);
+  // console.log("Errors:", err);
+  // console.log("Result:", result);
 });
